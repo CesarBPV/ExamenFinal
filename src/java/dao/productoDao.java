@@ -18,25 +18,28 @@ import java.util.List;
  *
  * @author FIA-LAB1D6
  */
-public class productoDao implements operacion <producto>{
+public class productoDao implements operacion<producto> {
+
     private Connection cx;
     private PreparedStatement ps;
     private ResultSet rs;
-    private final String sql_readall="SELECT * FROM producto";
-    private final String sql_update="UPDATE producto SET nombproducto = ? , descproducto = ? , cantproducto = ? ,priceproducto = ? WHERE idproducto= ?";
-    private final String sql_read ="SELECT *FROM producto WHERE idproducto=?";
-    private final String sql_create ="INSERT INTO producto (idusuario, nombproducto, descproducto,cantproducto,priceproducto)" +
-                        "VALUES (NULL, ?,?,?,?);";
+    private final String sql_readall = "SELECT * FROM producto";
+    private final String sql_update = "UPDATE producto SET nombproducto = ? , descproducto = ? , cantproducto = ? ,priceproducto = ? WHERE idproducto= ?";
+    private final String sql_read = "SELECT *FROM producto WHERE idproducto=?";
+    private final String sql_create = "INSERT INTO producto (idproducto, nombproducto, descproducto,cantproducto,priceproducto)"
+            + " VALUES (NULL, ? ,? ,? ,? );";
+    private final String sql_delete = "DELETE FROM producto WHERE idproducto= ?";
+
     @Override
     public int create(producto e) {
-        int r=0;
+        int r = 0;
         try {
             cx = conexion.getConexion();
             ps = cx.prepareStatement(sql_create);
             ps.setString(1, e.getNombproducto());
             ps.setString(2, e.getDescproducto());
-            ps.setInt(3,e.getCantproducto());
-            ps.setDouble(4,e.getPriceproducto());
+            ps.setInt(3, e.getCantproducto());
+            ps.setDouble(4, e.getPriceproducto());
             r = ps.executeUpdate();
         } catch (Exception ex) {
             System.out.println(ex);
@@ -46,7 +49,7 @@ public class productoDao implements operacion <producto>{
 
     @Override
     public int update(producto e) {
-        int r=0;
+        int r = 0;
         try {
             cx = conexion.getConexion();
             ps = cx.prepareStatement(sql_update);
@@ -60,23 +63,32 @@ public class productoDao implements operacion <producto>{
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
         return r;
-        
+
     }
 
     @Override
     public int delete(Object key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int r = 0;
+        try {
+            cx=conexion.getConexion();
+            ps=cx.prepareStatement(sql_delete);
+            ps.setInt(1, (int)key);
+            r=ps.executeUpdate();
+        } catch (Exception ex) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        return r;
     }
 
     @Override
     public List<producto> readAll() {
-        List<producto> lista=new ArrayList <>();
-        try{
-            cx=conexion.getConexion();
-            ps=cx.prepareStatement(sql_readall);
-            rs=ps.executeQuery();
-            while(rs.next()){
-                producto p=new producto();
+        List<producto> lista = new ArrayList<>();
+        try {
+            cx = conexion.getConexion();
+            ps = cx.prepareStatement(sql_readall);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                producto p = new producto();
                 p.setIdproducto(rs.getInt("idproducto"));
                 p.setNombproducto(rs.getString("nombproducto"));
                 p.setDescproducto(rs.getString("descproducto"));
@@ -84,7 +96,7 @@ public class productoDao implements operacion <producto>{
                 p.setPriceproducto(rs.getDouble("priceproducto"));
                 lista.add(p);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
         return lista;
@@ -96,10 +108,10 @@ public class productoDao implements operacion <producto>{
         try {
             cx = conexion.getConexion();
             ps = cx.prepareStatement(sql_read);
-            ps.setInt(1, (int)key);
+            ps.setInt(1, (int) key);
             rs = ps.executeQuery();
-            while(rs.next()){
-                producto p=new producto();
+            while (rs.next()) {
+                producto p = new producto();
                 p.setIdproducto(rs.getInt("idproducto"));
                 p.setNombproducto(rs.getString("nombproducto"));
                 p.setDescproducto(rs.getString("descproducto"));
@@ -108,9 +120,9 @@ public class productoDao implements operacion <producto>{
                 lista.add(p);
             }
         } catch (Exception e) {
-        
+
         }
         return lista;
     }
-    
+
 }

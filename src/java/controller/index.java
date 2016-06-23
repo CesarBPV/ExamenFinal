@@ -95,8 +95,31 @@ public class index extends HttpServlet {
             int cant = Integer.parseInt(request.getParameter("cantidad"));
             double price = Double.parseDouble(request.getParameter("precio"));
             int id1 = Integer.parseInt(request.getParameter("id"));
-            p = new producto(id1, nombre, desc,cant,price);
+            p = new producto(id1, nombre, desc, cant, price);
             int y = aO.update(p);
+            pag = "/control?op=1";
+            dispatcher = getServletContext().getRequestDispatcher(pag);
+            dispatcher.forward(request, response);
+        }
+        if (op == 4) {
+            pag = "/create.jsp";
+            dispatcher = getServletContext().getRequestDispatcher(pag);
+            dispatcher.forward(request, response);
+        }
+        if (op == 5) {
+            String nombre = request.getParameter("nombre");
+            String desc = request.getParameter("descripcion");
+            int cant = Integer.parseInt(request.getParameter("cantidad"));
+            double price = Double.parseDouble(request.getParameter("precio"));
+            p = new producto(nombre, desc, cant, price);
+            int r = aO.create(p);
+            pag = "/control?op=1";
+            dispatcher = getServletContext().getRequestDispatcher(pag);
+            dispatcher.forward(request, response);
+        }
+        if(op==6){
+            int id = Integer.parseInt(request.getParameter("id"));
+            int d=aO.delete(id);
             pag = "/control?op=1";
             dispatcher = getServletContext().getRequestDispatcher(pag);
             dispatcher.forward(request, response);

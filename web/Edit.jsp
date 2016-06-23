@@ -13,10 +13,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Editar</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/materialize.css" rel="stylesheet" type="text/css"/>
+        <link href="css/styles.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <section>
-            <h1 class="h1">Editar Producto</h1>
+        <h1 class="h1">Editar Producto</h1>
+        <section class="container container-fluid">
             <form method="get" action="control">
                 <%
                     for (int i = 0; i < lista2.size(); i++) {
@@ -24,17 +26,22 @@
                         p = (producto) lista2.get(i);
                 %>
                 <div class="form-group">
-                    <label class="control-label">Nombre:</label><input type="text" name="nombre" class="form-control" value="<%=p.getNombproducto()%>">
-                    <label class="control-label">Descripción:</label><input type="text" name="descripcion" class="form-control" vlaue="<%=p.getDescproducto()%>">
+                    <div class="input-field">
+                        <input type="text" id="nombre" name="nombre" class="form-control validate" value="<%=p.getNombproducto()%>"><label class="control-label" for="nombre">Nombre:</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="descripcion" name="descripcion" class="form-control validate" value="<%=p.getDescproducto()%>"><label class="control-label" for="descripcion">Descripción:</label>
+                    </div>
+                    
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Cantidad:</label><input type="text" name="cantidad" class="form-control" vlaue="<%=p.getCantproducto()%>">
-                    <label class="control-label">Precio:</label><input type="text" name="precio" class="form-control" vlaue="<%=p.getPriceproducto()%>">
+                    <input type="text" id="cantidad" name="cantidad" class="form-control validate" value="<%=p.getCantproducto()%>"><label class="control-label" for="cantidad">Cantidad:</label>
+                    <input type="text" id="precio" name="precio" class="form-control validate" value="<%=p.getPriceproducto()%>"><label class="control-label" for="precio">Precio:</label>
                 </div>
                 <div>
                     <input type="hidden" name="op" value="3">
                     <input type="hidden" name="id" id="id" value="<%=p.getIdproducto()%>">
-                    <input type="submit" class="btn btn-primary" vlaue="Enviar">
+                    <input type="submit" class="btn btn-primary" value="Enviar">
                 </div>
 
                 <%}%>
